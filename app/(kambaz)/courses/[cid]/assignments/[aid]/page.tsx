@@ -1,12 +1,12 @@
 export default function AssignmentEditor() {
   return (
     <div id="wd-assignments-editor">
-      <label htmlFor="wd-name">Assignment Name</label>
+      <label htmlFor="wd-name"><b>Assignment Name</b></label><br/>
       <input id="wd-name" defaultValue="A1 - ENV + HTML" />
       <br />
       <br />
       <textarea id="wd-description">
-        The assignment is available online Submit a link to the landing page of
+        The assignment is available online Submit a link to the landing page of your Web application running on Netlify.
       </textarea>
       <br />
       <table>
@@ -108,7 +108,7 @@ export default function AssignmentEditor() {
         <tr>
           <td></td>
           <td>
-            <label htmlFor="wd-available-from"> Available From </label>
+            <label htmlFor="wd-available-from"> Available from </label>
             <br />
             <input
               type="date"
@@ -117,7 +117,7 @@ export default function AssignmentEditor() {
             />
           </td>
           <td>
-            <label htmlFor="wd-available-until"> Available Until </label>
+            <label htmlFor="wd-available-until"> Until </label>
             <br />
             <input
               type="date"
