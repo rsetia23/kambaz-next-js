@@ -1,3 +1,1 @@
-export default function Lab2() {
-    
-}
+export default function Lab2() {}
