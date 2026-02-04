@@ -20,6 +20,7 @@ import ScreenSizeLabel from "./ScreenSizeLabel";
 import BootstrapTables from "./BootstrapTables";
 import BootstrapLists from "./BootstrapLists";
 import BootstrapForms from "./BootstrapForms";
+import BootstrapNavigation from "./BootstrapNavigation";
 // import TailwindLab from "./tailwind/page";
 // import TailwindSpacing from "./tailwind/TailwindSpacing";
 // import TailwindTypography from "./tailwind/TailwindTypography";
@@ -106,6 +107,7 @@ export default function Lab2() {
       <BootstrapTables />
       <BootstrapLists />
       <BootstrapForms />
+      <BootstrapNavigation />
 
       {/* <TailwindLab />
       <TailwindSpacing />
