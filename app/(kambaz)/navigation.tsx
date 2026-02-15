@@ -1,3 +1,4 @@
+"use client";
 import { AiOutlineDashboard } from "react-icons/ai";
 import {
   LiaBookSolid,
@@ -8,8 +9,18 @@ import {
 import { FaRegCircleUser } from "react-icons/fa6";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function KambazNavigation() {
+  const pathname = usePathname();
+  const links = [
+    { label: "Dashboard", path: "/dashboard", icon: AiOutlineDashboard },
+    { label: "Courses", path: "/dashboard", icon: LiaBookSolid },
+    { label: "Calendar", path: "/calendar", icon: LiaCalendar },
+    { label: "Inbox", path: "/inbox", icon: LiaInboxSolid },
+    { label: "Labs", path: "/labs", icon: LiaCogSolid },
+  ];
+
   return (
     <ListGroup
       className="rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2"
@@ -28,93 +39,31 @@ export default function KambazNavigation() {
 
       <br />
 
-      {/* Account (white icon + text) */}
-      <ListGroupItem className="border-0 bg-black text-center">
-        <Link
-          href="/account"
-          id="wd-account-link"
-          className="text-white text-decoration-none"
-        >
-          <FaRegCircleUser className="fs-1 text-white" />
-          <br />
-          Account
-        </Link>
+      <ListGroupItem
+        as={Link}
+        href="/account"
+        className={`text-center border-0 bg-black
+            ${pathname.includes("Account") ? "bg-white text-danger" : "bg-black text-white"}`}
+      >
+        <FaRegCircleUser
+          className={`fs-1 ${pathname.includes("Account") ? "text-danger" : "text-white"}`}
+        />
+        <br />
+        Account
       </ListGroupItem>
-
-      <br />
-
-      {/* Dashboard (ACTIVE) */}
-      <ListGroupItem className="border-0 bg-white text-center">
-        <Link
-          href="/dashboard"
-          id="wd-dashboard-link"
-          className="text-danger text-decoration-none"
+      {links.map((link) => (
+        <ListGroupItem
+          key={link.path}
+          as={Link}
+          href={link.path}
+          className={`bg-black text-center border-0
+            ${pathname.includes(link.label) ? "text-danger bg-white" : "text-white bg-black"}`}
         >
-          <AiOutlineDashboard className="fs-1 text-danger" />
+          {link.icon({ className: "fs-1 text-danger" })}
           <br />
-          Dashboard
-        </Link>
-      </ListGroupItem>
-
-      <br />
-
-      {/* Courses */}
-      <ListGroupItem className="border-0 bg-black text-center">
-        <Link
-          href="/dashboard"
-          id="wd-courses-link"
-          className="text-white text-decoration-none"
-        >
-          <LiaBookSolid className="fs-1 text-danger" />
-          <br />
-          Courses
-        </Link>
-      </ListGroupItem>
-
-      <br />
-
-      {/* Calendar */}
-      <ListGroupItem className="border-0 bg-black text-center">
-        <Link
-          href="/calendar"
-          id="wd-calendar-link"
-          className="text-white text-decoration-none"
-        >
-          <LiaCalendar className="fs-1 text-danger" />
-          <br />
-          Calendar
-        </Link>
-      </ListGroupItem>
-
-      <br />
-
-      {/* Inbox */}
-      <ListGroupItem className="border-0 bg-black text-center">
-        <Link
-          href="/inbox"
-          id="wd-inbox-link"
-          className="text-white text-decoration-none"
-        >
-          <LiaInboxSolid className="fs-1 text-danger" />
-          <br />
-          Inbox
-        </Link>
-      </ListGroupItem>
-
-      <br />
-
-      {/* Labs */}
-      <ListGroupItem className="border-0 bg-black text-center">
-        <Link
-          href="/labs"
-          id="wd-labs-link"
-          className="text-white text-decoration-none"
-        >
-          <LiaCogSolid className="fs-1 text-danger" />
-          <br />
-          Labs
-        </Link>
-      </ListGroupItem>
+          {link.label}
+        </ListGroupItem>
+      ))}
     </ListGroup>
   );
 }
