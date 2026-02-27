@@ -36,6 +36,8 @@ export default function Lab4() {
 
         <Link href="./lab4/redux">Redux Examples</Link>
         <ReduxExamples />
+        <Link href="./lab4/react-context">React Context Examples</Link>
+
       </div>
     </Provider>
   );

@@ -12,18 +12,11 @@ export default function TodoList() {
       <ListGroup>
         <TodoForm />
         {todos.map((todo: any) => (
-          <TodoItem
-            todo={todo}
-            deleteTodo={function (id: string): void {
-              throw new Error("Function not implemented.");
-            }}
-            setTodo={function (todo: { id: string; title: string }): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
+          <TodoItem todo={todo} />
         ))}
       </ListGroup>
-      <hr />
+      <hr/>
     </div>
-  );
-}
+);}
+
+
