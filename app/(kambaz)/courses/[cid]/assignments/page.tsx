@@ -1,56 +1,73 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import * as db from "../../../database";
+import { useParams, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { Button } from "react-bootstrap";
+import { deleteAssignment } from "./reducer";
+import { RootState } from "../../../store";
 
 export default function Assignments() {
   const { cid } = useParams();
-
-  const assignments = db.assignments;
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { assignments } = useSelector(
+    (state: RootState) => state.assignmentsReducer
+  );
+  const { currentUser } = useSelector((state: RootState) => state.accountReducer);
+  const isFaculty = currentUser?.role === "FACULTY";
 
   return (
     <div id="wd-assignments">
       <input placeholder="Search for Assignments" id="wd-search-assignment" />
-
-      <button id="wd-add-assignment-group">+ Group</button>
-
-      <button id="wd-add-assignment">+ Assignment</button>
+      {isFaculty && <button id="wd-add-assignment-group">+ Group</button>}
+      {isFaculty && (
+        <Button
+          id="wd-add-assignment"
+          className="ms-2"
+          onClick={() => router.push(`/courses/${cid}/assignments/new`)}
+        >
+          + Assignment
+        </Button>
+      )}
 
       <h3 id="wd-assignments-title">
-        ASSIGNMENTS 40% of Total <button>+</button>
+        ASSIGNMENTS 40% of Total {isFaculty && <button>+</button>}
       </h3>
 
       <ul id="wd-assignment-list">
-
         {assignments
           .filter((assignment: any) => assignment.course === cid)
           .map((assignment: any) => (
-
-            <li
-              key={assignment._id}
-              className="wd-assignment-list-item"
-            >
-
-              <Link
-                href={`/courses/${cid}/assignments/${assignment._id}`}
-                className="wd-assignment-link"
-              >
-                {assignment.title}
-              </Link>
-
-              <br />
-
-              Multiple Modules | <b>Not available until</b> May 6 at 12:00am
-
-              <br />
-
-              <b>Due</b> May 13 at 11:59pm | 100 pts
-
+            <li key={assignment._id} className="wd-assignment-list-item">
+              <div className="d-flex justify-content-between align-items-start">
+                <div>
+                  <Link
+                    href={`/courses/${cid}/assignments/${assignment._id}`}
+                    className="wd-assignment-link"
+                  >
+                    {assignment.title}
+                  </Link>
+                  <br />
+                  {assignment.description}
+                  <br />
+                  <b>Due</b> {assignment.dueDate} | {assignment.points} pts
+                </div>
+                {isFaculty && (
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => {
+                      if (window.confirm("Delete this assignment?")) {
+                        dispatch(deleteAssignment(assignment._id));
+                      }
+                    }}
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
             </li>
-
           ))}
-
       </ul>
     </div>
   );
