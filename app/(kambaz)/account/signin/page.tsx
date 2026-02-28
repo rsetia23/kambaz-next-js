@@ -13,10 +13,14 @@ export default function Signin() {
   const router = useRouter();
 
   const signin = () => {
+    const username = (credentials.username || "").trim().toLowerCase();
+    const password = (credentials.password || "").trim().toLowerCase();
     const user = db.users.find(
       (u: any) =>
-        (u.username ?? u.loginId) === credentials.username &&
-        (u.password ?? u.loginId) === credentials.password
+        (u.username ?? u.loginId)?.toLowerCase() === username &&
+        ((u.password && u.password.toLowerCase() === password) ||
+          !u.password ||
+          (u.loginId && u.loginId.toLowerCase() === password))
     );
     if (!user) return;
     dispatch(setCurrentUser(user));
