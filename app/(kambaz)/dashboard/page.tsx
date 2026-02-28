@@ -23,6 +23,7 @@ export default function Dashboard() {
   const { enrollments } = useSelector(
     (state: RootState) => state.enrollmentsReducer
   );
+  const user = currentUser as any;
   const dispatch = useDispatch();
   const [showAllCourses, setShowAllCourses] = useState(false);
   const [course, setCourse] = useState<any>({
@@ -34,12 +35,12 @@ export default function Dashboard() {
     image: "/images/reactjs.jpg",
     description: "New Description",
   });
-  const isFaculty = currentUser?.role === "FACULTY";
+  const isFaculty = user?.role === "FACULTY";
   const isEnrolled = (courseId: string) =>
-    currentUser
+    user
       ? enrollments.some(
           (enrollment: any) =>
-            enrollment.user === currentUser._id && enrollment.course === courseId
+            enrollment.user === user._id && enrollment.course === courseId
         )
       : false;
   const visibleCourses = courses.filter((course: any) =>
@@ -50,7 +51,7 @@ export default function Dashboard() {
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
       <h5>
         New Course
-        {currentUser && (
+        {user && (
           <button
             className="btn btn-primary float-end"
             onClick={() => setShowAllCourses(!showAllCourses)}
@@ -149,12 +150,12 @@ export default function Dashboard() {
                         Delete
                       </button>
                     )}
-                    {currentUser && isEnrolled(course._id) && (
+                    {user && isEnrolled(course._id) && (
                       <button
                         onClick={(event) => {
                           event.preventDefault();
                           dispatch(
-                            unenroll({ user: currentUser._id, course: course._id })
+                            unenroll({ user: user._id, course: course._id })
                           );
                         }}
                         className="btn btn-danger float-end"
@@ -162,12 +163,12 @@ export default function Dashboard() {
                         Unenroll
                       </button>
                     )}
-                    {currentUser && !isEnrolled(course._id) && (
+                    {user && !isEnrolled(course._id) && (
                       <button
                         onClick={(event) => {
                           event.preventDefault();
                           dispatch(
-                            enroll({ user: currentUser._id, course: course._id })
+                            enroll({ user: user._id, course: course._id })
                           );
                         }}
                         className="btn btn-success float-end"

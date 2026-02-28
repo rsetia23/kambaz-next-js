@@ -19,19 +19,20 @@ export default function CoursesLayout({
   const { enrollments } = useSelector(
     (state: RootState) => state.enrollmentsReducer
   );
+  const user = currentUser as any;
   const course = courses.find((course) => course._id === cid);
   const hasAccess = enrollments.some(
     (enrollment: any) =>
-      enrollment.user === currentUser?._id && enrollment.course === cid
+      enrollment.user === user?._id && enrollment.course === cid
   );
 
   useEffect(() => {
-    if (!currentUser || !hasAccess) {
+    if (!user || !hasAccess) {
       router.replace("/dashboard");
     }
-  }, [currentUser, hasAccess, router]);
+  }, [user, hasAccess, router]);
 
-  if (!currentUser || !hasAccess) {
+  if (!user || !hasAccess) {
     return null;
   }
 

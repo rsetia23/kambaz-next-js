@@ -15,7 +15,8 @@ export default function Assignments() {
     (state: RootState) => state.assignmentsReducer
   );
   const { currentUser } = useSelector((state: RootState) => state.accountReducer);
-  const isFaculty = currentUser?.role === "FACULTY";
+  const user = currentUser as any;
+  const isFaculty = user?.role === "FACULTY";
 
   return (
     <div id="wd-assignments">
