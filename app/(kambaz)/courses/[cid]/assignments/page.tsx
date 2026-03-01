@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment, setAssignments } from "./reducer";
 import { RootState } from "../../../store";
+import * as client from "./client";
 
 export default function Assignments() {
   const { cid } = useParams();
@@ -17,6 +19,15 @@ export default function Assignments() {
   const { currentUser } = useSelector((state: RootState) => state.accountReducer);
   const user = currentUser as any;
   const isFaculty = user?.role === "FACULTY";
+
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      const assignments = await client.findAssignmentsForCourse(cid as string);
+      dispatch(setAssignments(assignments));
+    };
+
+    void fetchAssignments();
+  }, [cid, dispatch]);
 
   return (
     <div id="wd-assignments">
@@ -57,8 +68,9 @@ export default function Assignments() {
                 {isFaculty && (
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => {
+                    onClick={async () => {
                       if (window.confirm("Delete this assignment?")) {
+                        await client.deleteAssignment(assignment._id);
                         dispatch(deleteAssignment(assignment._id));
                       }
                     }}

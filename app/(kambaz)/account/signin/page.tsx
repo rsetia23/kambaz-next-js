@@ -4,25 +4,22 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, FormControl } from "react-bootstrap";
-import * as db from "../../database";
 import { setCurrentUser } from "../reducer";
+import * as client from "../client";
 
 export default function Signin() {
   const [credentials, setCredentials] = useState<any>({});
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const signin = () => {
-    const username = (credentials.username || "").trim().toLowerCase();
-    const password = (credentials.password || "").trim().toLowerCase();
-    const user = db.users.find(
-      (u: any) =>
-        (u.username ?? u.loginId)?.toLowerCase() === username &&
-        ((u.password && u.password.toLowerCase() === password) ||
-          !u.password ||
-          (u.loginId && u.loginId.toLowerCase() === password))
-    );
-    if (!user) return;
+  const signin = async () => {
+    setError("");
+    const user = await client.signin(credentials);
+    if (!user) {
+      setError("Invalid username or password");
+      return;
+    }
     dispatch(setCurrentUser(user));
     router.push("/dashboard");
   };
@@ -49,9 +46,14 @@ export default function Signin() {
         type="password"
         id="wd-password"
       />
-      <Button onClick={signin} id="wd-signin-btn" className="w-100 mb-2">
+      <Button
+        onClick={() => void signin()}
+        id="wd-signin-btn"
+        className="w-100 mb-2"
+      >
         Sign in
       </Button>
+      {error && <div className="text-danger mb-2">{error}</div>}
       <Link id="wd-signup-link" href="/account/signup">
         Sign up
       </Link>

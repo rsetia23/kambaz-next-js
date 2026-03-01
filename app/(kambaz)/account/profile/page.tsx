@@ -1,10 +1,11 @@
 "use client";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, FormControl } from "react-bootstrap";
 import { setCurrentUser } from "../reducer";
 import { RootState } from "../../store";
+import * as client from "../client";
 
 export default function Profile() {
   const [profile, setProfile] = useState<any>({});
@@ -16,19 +17,29 @@ export default function Profile() {
     if (currentUser) {
       setProfile(currentUser);
     }
-  }, [currentUser]);
+    if (!currentUser) {
+      router.replace("/account/signin");
+    }
+  }, [currentUser, router]);
 
-  if (!currentUser) {
-    redirect("/account/signin");
-  }
-
-  const signout = () => {
+  const signout = async () => {
+    await client.signout();
     dispatch(setCurrentUser(null));
     router.push("/account/signin");
   };
 
+  const updateProfile = async () => {
+    const updatedProfile = await client.updateUser(profile);
+    dispatch(setCurrentUser(updatedProfile));
+    setProfile(updatedProfile);
+  };
+
+  if (!currentUser) {
+    return null;
+  }
+
   return (
-    <div className="wd-profile-screen">
+    <div id="wd-profile-screen" className="wd-profile-screen">
       <h3>Profile</h3>
       {profile && (
         <div>
@@ -86,7 +97,18 @@ export default function Profile() {
             <option value="FACULTY">Faculty</option>
             <option value="STUDENT">Student</option>
           </select>
-          <Button onClick={signout} className="w-100 mb-2" id="wd-signout-btn">
+          <Button
+            onClick={() => void updateProfile()}
+            className="btn btn-primary w-100 mb-2"
+            id="wd-update-btn"
+          >
+            Update
+          </Button>
+          <Button
+            onClick={() => void signout()}
+            className="w-100 mb-2"
+            id="wd-signout-btn"
+          >
             Sign out
           </Button>
         </div>

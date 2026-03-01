@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,9 +13,15 @@ import {
   FormControl,
   Row,
 } from "react-bootstrap";
-import { addNewCourse, deleteCourse, updateCourse } from "../courses/reducer";
-import { enroll, unenroll } from "../enrollments/reducer";
+import {
+  deleteCourse,
+  setCourses,
+  updateCourse,
+} from "../courses/reducer";
+import { enroll, setEnrollments, unenroll } from "../enrollments/reducer";
 import { RootState } from "../store";
+import * as client from "../courses/client";
+import * as enrollmentsClient from "../enrollments/client";
 
 export default function Dashboard() {
   const { courses } = useSelector((state: RootState) => state.coursesReducer);
@@ -46,6 +52,42 @@ export default function Dashboard() {
   const visibleCourses = courses.filter((course: any) =>
     showAllCourses ? true : isEnrolled(course._id)
   );
+
+  const onAddNewCourse = async () => {
+    const newCourse = await client.createCourse(course);
+    dispatch(setCourses([...courses, newCourse]));
+    if (user) {
+      const enrollment = await enrollmentsClient.enrollInCourse(newCourse._id);
+      dispatch(enroll(enrollment));
+    }
+  };
+
+  const onEnroll = async (courseId: string) => {
+    const enrollment = await enrollmentsClient.enrollInCourse(courseId);
+    dispatch(enroll(enrollment));
+  };
+
+  const onUnenroll = async (courseId: string) => {
+    await enrollmentsClient.unenrollFromCourse(courseId);
+    dispatch(unenroll({ user: user._id, course: courseId }));
+  };
+
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      const allCourses = await client.findAllCourses();
+      dispatch(setCourses(allCourses));
+      if (user) {
+        const currentEnrollments =
+          await enrollmentsClient.findEnrollmentsForCurrentUser();
+        dispatch(setEnrollments(currentEnrollments));
+      } else {
+        dispatch(setEnrollments([]));
+      }
+    };
+
+    void loadDashboardData();
+  }, [dispatch, user]);
+
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
@@ -63,7 +105,7 @@ export default function Dashboard() {
           <button
             className="btn btn-primary float-end me-2"
             id="wd-add-new-course-click"
-            onClick={() => dispatch(addNewCourse(course))}
+            onClick={() => void onAddNewCourse()}
           >
             {" "}
             Add{" "}
@@ -154,9 +196,7 @@ export default function Dashboard() {
                       <button
                         onClick={(event) => {
                           event.preventDefault();
-                          dispatch(
-                            unenroll({ user: user._id, course: course._id })
-                          );
+                          void onUnenroll(course._id);
                         }}
                         className="btn btn-danger float-end"
                       >
@@ -167,9 +207,7 @@ export default function Dashboard() {
                       <button
                         onClick={(event) => {
                           event.preventDefault();
-                          dispatch(
-                            enroll({ user: user._id, course: course._id })
-                          );
+                          void onEnroll(course._id);
                         }}
                         className="btn btn-success float-end"
                       >
