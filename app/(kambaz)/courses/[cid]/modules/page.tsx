@@ -23,7 +23,8 @@ export default function Modules() {
   const { modules } = useSelector((state: RootState) => state.modulesReducer);
   const { currentUser } = useSelector((state: RootState) => state.accountReducer);
   const dispatch = useDispatch();
-  const isFaculty = currentUser?.role === "FACULTY";
+  const user = currentUser as any;
+  const isFaculty = user?.role === "FACULTY";
 
   const fetchModules = async () => {
     const modules = await client.findModulesForCourse(cid as string);
