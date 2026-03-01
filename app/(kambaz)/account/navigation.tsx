@@ -7,6 +7,7 @@ import { RootState } from "../store";
 
 export default function AccountNavigation() {
   const { currentUser } = useSelector((state: RootState) => state.accountReducer);
+  const user = currentUser as any;
   const links = currentUser ? ["profile"] : ["signin", "signup"];
   const pathname = usePathname();
 
@@ -19,7 +20,7 @@ export default function AccountNavigation() {
           </NavLink>
         </NavItem>
       ))}
-      {currentUser && currentUser.role === "ADMIN" && (
+      {user && user.role === "ADMIN" && (
         <NavItem>
           <NavLink as={Link} href="/account/users" active={pathname.endsWith("users")}>
             users
