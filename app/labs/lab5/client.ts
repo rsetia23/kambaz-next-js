@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const HTTP_SERVER = process.env.NEXT_PUBLIC_HTTP_SERVER;
+const HTTP_SERVER =
+  process.env.NEXT_PUBLIC_HTTP_SERVER_A6 ||
+  process.env.NEXT_PUBLIC_HTTP_SERVER;
 const ASSIGNMENT_API = `${HTTP_SERVER}/lab5/assignment`;
 const TODOS_API = `${HTTP_SERVER}/lab5/todos`;
 
