@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const HTTP_SERVER =
-  process.env.NEXT_PUBLIC_HTTP_SERVER_A6 ||
   process.env.NEXT_PUBLIC_HTTP_SERVER;
 
 export const QUIZ_TYPES = [
