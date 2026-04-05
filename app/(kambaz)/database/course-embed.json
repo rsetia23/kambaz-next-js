@@ -90,17 +90,20 @@
       {
         "_id": "M201",
         "name": "Fundamentals of Aerodynamics",
-        "description": "Basic aerodynamic concepts and fluid dynamics principles."
+        "description": "Basic aerodynamic concepts and fluid dynamics principles.",
+        "lessons": []
       },
       {
         "_id": "M202",
         "name": "Subsonic and Supersonic Flow",
-        "description": "Understanding subsonic and supersonic aerodynamic behaviors."
+        "description": "Understanding subsonic and supersonic aerodynamic behaviors.",
+        "lessons": []
       },
       {
         "_id": "M203",
         "name": "Aerodynamic Heating",
-        "description": "Study of aerodynamic heating and thermal protection systems."
+        "description": "Study of aerodynamic heating and thermal protection systems.",
+        "lessons": []
       }
     ]
   },
@@ -117,17 +120,20 @@
       {
         "_id": "M301",
         "name": "Spacecraft Structural Design",
-        "description": "Fundamentals of designing spacecraft structures and materials selection."
+        "description": "Fundamentals of designing spacecraft structures and materials selection.",
+        "lessons": []
       },
       {
         "_id": "M302",
         "name": "Orbital Mechanics",
-        "description": "Understanding orbital dynamics and mission planning."
+        "description": "Understanding orbital dynamics and mission planning.",
+        "lessons": []
       },
       {
         "_id": "M303",
         "name": "Spacecraft Systems Engineering",
-        "description": "Overview of spacecraft systems and subsystems engineering."
+        "description": "Overview of spacecraft systems and subsystems engineering.",
+        "lessons": []
       }
     ]
   },
@@ -139,7 +145,8 @@
     "endDate": "2023-05-15",
     "department": "D134",
     "credits": 3,
-    "description": "Organic Chemistry is an in-depth course that explores the structure, properties, composition, and reactions of organic compounds and materials. The course covers various topics including hydrocarbons, functional groups, stereochemistry, and organic synthesis techniques. Students will learn about the mechanisms of organic reactions, spectroscopic methods for structure determination, and the role of organic chemistry in biological systems. Emphasis is placed on problem-solving and laboratory skills, preparing students for advanced studies in chemistry, medicine, and related fields."
+    "description": "Organic Chemistry is an in-depth course that explores the structure, properties, composition, and reactions of organic compounds and materials. The course covers various topics including hydrocarbons, functional groups, stereochemistry, and organic synthesis techniques. Students will learn about the mechanisms of organic reactions, spectroscopic methods for structure determination, and the role of organic chemistry in biological systems. Emphasis is placed on problem-solving and laboratory skills, preparing students for advanced studies in chemistry, medicine, and related fields.",
+    "modules": []
   },
   {
     "_id": "RS105",
@@ -149,7 +156,8 @@
     "endDate": "2023-05-15",
     "department": "D134",
     "credits": 3,
-    "description": "Inorganic Chemistry focuses on the properties, structures, and behaviors of inorganic and organometallic compounds. This course covers a range of topics including coordination chemistry, metal complexes, bonding theories, symmetry, and crystal field theory. Students will also explore the role of inorganic chemistry in real-world applications such as catalysis, materials science, and bioinorganic processes. Laboratory work emphasizes synthesis and analysis of inorganic compounds, fostering a deeper understanding of theoretical concepts."
+    "description": "Inorganic Chemistry focuses on the properties, structures, and behaviors of inorganic and organometallic compounds. This course covers a range of topics including coordination chemistry, metal complexes, bonding theories, symmetry, and crystal field theory. Students will also explore the role of inorganic chemistry in real-world applications such as catalysis, materials science, and bioinorganic processes. Laboratory work emphasizes synthesis and analysis of inorganic compounds, fostering a deeper understanding of theoretical concepts.",
+    "modules": []
   },
   {
     "_id": "RS106",
@@ -159,7 +167,8 @@
     "endDate": "2023-05-15",
     "department": "D134",
     "credits": 3,
-    "description": "Physical Chemistry merges the principles of physics and chemistry to understand the physical properties of molecules, the forces that act upon them, and the chemical reactions they undergo. Key topics include thermodynamics, kinetics, quantum mechanics, and spectroscopy. The course provides a comprehensive understanding of molecular behavior, reaction dynamics, and the application of mathematical methods in solving chemical problems. Labs focus on experimental techniques and data analysis, equipping students with skills necessary for research and advanced study in chemistry and related fields."
+    "description": "Physical Chemistry merges the principles of physics and chemistry to understand the physical properties of molecules, the forces that act upon them, and the chemical reactions they undergo. Key topics include thermodynamics, kinetics, quantum mechanics, and spectroscopy. The course provides a comprehensive understanding of molecular behavior, reaction dynamics, and the application of mathematical methods in solving chemical problems. Labs focus on experimental techniques and data analysis, equipping students with skills necessary for research and advanced study in chemistry and related fields.",
+    "modules": []
   },
   {
     "_id": "RS107",
@@ -170,7 +179,8 @@
     "department": "Languages",
     "credits": 3,
     "description": "This course offers an exploration of the ancient languages and scripts found throughout Middle-earth, including Elvish (Sindarin and Quenya), Dwarvish (Khuzdul), and the Black Speech of Mordor. Students will learn the historical and cultural contexts of these languages, their linguistic structures, and their usage in various inscriptions and texts. Emphasis is on understanding the philological aspects and the role of language in shaping Middle-earth's history and lore.",
-    "author": "654f9ec2ea7ead465908d1e3"
+    "author": "654f9ec2ea7ead465908d1e3",
+    "modules": []
   },
   {
     "_id": "RS108",
@@ -181,6 +191,7 @@
     "department": "Political Studies",
     "credits": 4,
     "description": "This course explores the complex relationships and diplomatic interactions among the different races of Middle-earth: Elves, Men, Dwarves, and Wizards. Topics include the study of historical alliances, conflicts, and the role of leadership and wisdom in maintaining peace. Students will engage in discussions and case studies on key events in Middle-earth's history, such as the Council of Elrond and the War of the Ring, to understand the principles of diplomacy and conflict resolution in a multi-species context.",
-    "author": "654f9ec2ea7ead465908d1e3"
+    "author": "654f9ec2ea7ead465908d1e3",
+    "modules": []
   }
 ]

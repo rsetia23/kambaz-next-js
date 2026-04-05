@@ -9,9 +9,11 @@ import * as client from "../../../account/client";
 export default function PeopleDetails({
   uid,
   onClose,
+  allowManage = true,
 }: {
   uid: string | null;
   onClose: () => void;
+  allowManage?: boolean;
 }) {
   const [user, setUser] = useState<any>({});
   const [name, setName] = useState("");
@@ -61,24 +63,29 @@ export default function PeopleDetails({
       </div>
       <hr />
       <div className="text-danger fs-4">
-        {!editing && (
+        {allowManage && !editing && (
           <FaPencil
             onClick={() => setEditing(true)}
             className="float-end fs-5 mt-2 wd-edit"
           />
         )}
-        {editing && (
+        {allowManage && editing && (
           <FaCheck
             onClick={() => void saveUser()}
             className="float-end fs-5 mt-2 me-2 wd-save"
           />
         )}
         {!editing && (
-          <div className="wd-name" onClick={() => setEditing(true)}>
+          <div
+            className="wd-name"
+            onClick={() => {
+              if (allowManage) setEditing(true);
+            }}
+          >
             {user.firstName} {user.lastName}
           </div>
         )}
-        {user && editing && (
+        {allowManage && user && editing && (
           <FormControl
             className="w-50 wd-edit-name"
             value={name}
@@ -97,12 +104,14 @@ export default function PeopleDetails({
       <b>Total Activity:</b>{" "}
       <span className="wd-total-activity">{user.totalActivity}</span>
       <hr />
-      <button
-        onClick={() => void deleteUser(uid)}
-        className="btn btn-danger float-end wd-delete"
-      >
-        Delete
-      </button>
+      {allowManage && (
+        <button
+          onClick={() => void deleteUser(uid)}
+          className="btn btn-danger float-end wd-delete"
+        >
+          Delete
+        </button>
+      )}
       <button
         onClick={onClose}
         className="btn btn-secondary float-end me-2 wd-cancel"

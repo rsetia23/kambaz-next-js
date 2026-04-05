@@ -7,9 +7,11 @@ import PeopleDetails from "./Details";
 export default function PeopleTable({
   users = [],
   fetchUsers,
+  allowManage = true,
 }: {
   users?: any[];
   fetchUsers?: () => void;
+  allowManage?: boolean;
 }) {
   const [showDetails, setShowDetails] = useState(false);
   const [showUserId, setShowUserId] = useState<string | null>(null);
@@ -19,6 +21,7 @@ export default function PeopleTable({
       {showDetails && (
         <PeopleDetails
           uid={showUserId}
+          allowManage={allowManage}
           onClose={() => {
             setShowDetails(false);
             fetchUsers?.();

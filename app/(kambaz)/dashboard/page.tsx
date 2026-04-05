@@ -14,9 +14,7 @@ import {
   Row,
 } from "react-bootstrap";
 import {
-  deleteCourse,
   setCourses,
-  updateCourse,
 } from "../courses/reducer";
 import { enroll, setEnrollments, unenroll } from "../enrollments/reducer";
 import { RootState } from "../store";
@@ -62,13 +60,27 @@ export default function Dashboard() {
     }
   };
 
+  const onDeleteCourse = async (courseId: string) => {
+    await client.deleteCourse(courseId);
+    dispatch(setCourses(courses.filter((course: any) => course._id !== courseId)));
+  };
+
+  const onUpdateCourse = async () => {
+    const updatedCourse = await client.updateCourse(course);
+    if (!updatedCourse) return;
+    const refreshedCourses = courses.map((c: any) =>
+      c._id === course._id ? course : c
+    );
+    dispatch(setCourses(refreshedCourses));
+  };
+
   const onEnroll = async (courseId: string) => {
-    const enrollment = await enrollmentsClient.enrollInCourse(courseId);
+    const enrollment = await client.enrollIntoCourse("current", courseId);
     dispatch(enroll(enrollment));
   };
 
   const onUnenroll = async (courseId: string) => {
-    await enrollmentsClient.unenrollFromCourse(courseId);
+    await client.unenrollFromCourse("current", courseId);
     dispatch(unenroll({ user: user._id, course: courseId }));
   };
 
@@ -114,7 +126,7 @@ export default function Dashboard() {
         {isFaculty && (
           <button
             className="btn btn-warning float-end me-2"
-            onClick={() => dispatch(updateCourse(course))}
+            onClick={() => void onUpdateCourse()}
             id="wd-update-course-click"
           >
             Update
@@ -145,7 +157,11 @@ export default function Dashboard() {
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
           {visibleCourses.map((course) => (
-            <Col className="wd-dashboard-course" style={{ width: "300px" }}>
+            <Col
+              key={course._id}
+              className="wd-dashboard-course"
+              style={{ width: "300px" }}
+            >
               <Card>
                 <Link
                   href={`/courses/${course._id}/home`}
@@ -184,7 +200,7 @@ export default function Dashboard() {
                       <button
                         onClick={(event) => {
                           event.preventDefault();
-                          dispatch(deleteCourse(course._id));
+                          void onDeleteCourse(course._id);
                         }}
                         className="btn btn-danger float-end"
                         id="wd-delete-course-click"
