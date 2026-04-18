@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button, FormControl } from "react-bootstrap";
+import { Button, FormControl, FormSelect } from "react-bootstrap";
 import axios from "axios";
 import { setCurrentUser } from "../reducer";
 import * as client from "../client";
@@ -47,6 +47,15 @@ export default function Signup() {
         value={user.password || ""}
         onChange={(e) => setUser({ ...user, password: e.target.value })}
       />
+      <FormSelect
+        className="mb-2"
+        value={user.role || "STUDENT"}
+        onChange={(e) => setUser({ ...user, role: e.target.value })}
+      >
+        <option value="STUDENT">Student</option>
+        <option value="TA">TA</option>
+        <option value="FACULTY">Faculty</option>
+      </FormSelect>
       <Button onClick={() => void signup()} className="wd-signup-btn w-100 mb-2">
         Sign up
       </Button>
