@@ -9,6 +9,31 @@ import * as client from "../../client";
 
 const normalize = (value: any) => `${value ?? ""}`.trim().toLowerCase();
 
+const formatCorrectAnswer = (question: any, resultForQuestion: any) => {
+  if (question.type === "MULTIPLE_CHOICE") {
+    const correctChoiceId =
+      resultForQuestion?.correctAnswer ||
+      (question.choices || []).find((choice: any) => choice.correct)?._id;
+    const correctChoice = (question.choices || []).find(
+      (choice: any) => choice._id === correctChoiceId
+    );
+    return correctChoice?.text || correctChoiceId || "";
+  }
+
+  if (question.type === "TRUE_FALSE") {
+    const answer =
+      typeof resultForQuestion?.correctAnswer === "boolean"
+        ? resultForQuestion.correctAnswer
+        : question.trueFalseAnswer;
+    return answer ? "True" : "False";
+  }
+
+  const answers = Array.isArray(resultForQuestion?.correctAnswer)
+    ? resultForQuestion.correctAnswer
+    : question.blankAnswers || [];
+  return answers.join(", ");
+};
+
 export default function QuizPreviewPage() {
   const { cid, qid } = useParams();
   const router = useRouter();
@@ -240,10 +265,7 @@ export default function QuizPreviewPage() {
 
               {resultForQuestion && canShowCorrectAnswers && (
                 <div className="mt-3 small">
-                  Correct answer:{" "}
-                  {Array.isArray(resultForQuestion.correctAnswer)
-                    ? resultForQuestion.correctAnswer.join(", ")
-                    : `${resultForQuestion.correctAnswer}`}
+                  Correct answer: {formatCorrectAnswer(question, resultForQuestion)}
                 </div>
               )}
             </div>
