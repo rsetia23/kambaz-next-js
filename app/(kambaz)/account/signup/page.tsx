@@ -53,6 +53,7 @@ export default function Signup() {
         onChange={(e) => setUser({ ...user, role: e.target.value })}
       >
         <option value="STUDENT">Student</option>
+        <option value="TA">TA</option>
         <option value="FACULTY">Faculty</option>
       </FormSelect>
       <Button onClick={() => void signup()} className="wd-signup-btn w-100 mb-2">
