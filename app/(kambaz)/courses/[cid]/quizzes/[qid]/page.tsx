@@ -8,6 +8,27 @@ import { RootState } from "../../../../store";
 import * as client from "../client";
 import { formatDate, QUIZ_TYPES, ASSIGNMENT_GROUPS } from "../utils";
 
+const formatSubmittedAt = (value?: string) => {
+  if (!value) return "Unknown";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+
+  const day = date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+  const time = date
+    .toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    })
+    .toLowerCase()
+    .replace(" ", "");
+
+  return `${day} at ${time}`;
+};
+
 export default function QuizDetailsPage() {
   const { cid, qid } = useParams();
   const router = useRouter();
@@ -125,9 +146,13 @@ export default function QuizDetailsPage() {
                 <div>Attempts Used: {attemptsUsed}</div>
                 <div>Attempts Remaining: {attemptsRemaining}</div>
                 {quiz.latestAttempt && (
-                  <div>
-                    Latest Score: {quiz.latestAttempt.score} / {quiz.latestAttempt.possiblePoints}
-                  </div>
+                  <>
+                    <div>
+                      Latest Score: {quiz.latestAttempt.score} /{" "}
+                      {quiz.latestAttempt.possiblePoints}
+                    </div>
+                    <div>Submitted {formatSubmittedAt(quiz.latestAttempt.submittedAt)}</div>
+                  </>
                 )}
               </>
             )}
